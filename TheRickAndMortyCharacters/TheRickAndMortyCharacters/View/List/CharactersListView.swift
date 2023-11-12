@@ -13,10 +13,19 @@ struct CharactersListView: View {
     var body: some View {
         NavigationView {
             List {
-                ForEach(1..<3) { _ in
-                    CharacterListItemView()
+                ForEach(1..<10) { _ in
+                    ZStack {
+                        NavigationLink(destination: CharacterDetailView()) {
+                            EmptyView()
+                        }.opacity(0.0)
+                        CharacterListItemView()
+                            .padding(.leading, 20)
+                    }
                 }
+                .listRowSeparator(.hidden)
             }
+            .padding()
+            .listStyle(PlainListStyle())
             .navigationTitle("Characters")
         }
     }
