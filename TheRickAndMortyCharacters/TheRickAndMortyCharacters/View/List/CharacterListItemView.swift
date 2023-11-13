@@ -6,41 +6,43 @@
 //
 
 import SwiftUI
+import GQLApi
 
 struct CharacterListItemView: View {
     // MARK: - Properties
+    var viewModel: CharacterSummary?
+    
     // MARK: - Body
     var body: some View {
         ZStack {
             VStack(alignment: .leading, spacing: 8) {
-                Text("name" ?? "Loading...")
+                Text("Mango cluster princess")
                     .font(.title2)
                     .lineLimit(1)
                     .fontWeight(.heavy)
-                    .foregroundStyle(.blue)
-                    .redacted(reason: "character.name" == nil ? .placeholder : [])
+                    .foregroundStyle(.white)
                 Group {
-                        Text("Species: ")
-                            .fontWeight(.bold)
-                            .foregroundStyle(.blue) +
-                        Text("species" ?? "")
-                            .foregroundStyle(.black)
+                    Text("Species: ")
+                        .fontWeight(.bold)
+                        .foregroundStyle(.white) +
+                    Text(viewModel?.species ?? "")
+                        .foregroundStyle(.black)
                 }
                 Group {
-                        Text("Status: ")
-                            .fontWeight(.bold)
-                            .foregroundStyle(.blue) +
-                        Text("status" ?? "")
-                            .foregroundStyle(.black)
+                    Text("Status: ")
+                        .fontWeight(.bold)
+                        .foregroundStyle(.white) +
+                    Text(viewModel?.status ?? "")
+                        .foregroundStyle(.black)
                 }
             }
             .padding(.leading, -50)
             .padding(.vertical, 3)
             .frame(width: 300, height: 135, alignment: .center)
-            .background(LinearGradient(gradient: Gradient(colors: [Color("ColorGreenMedium"), Color("ColorGreenLight")]), startPoint: .leading, endPoint: .trailing))
+            .background(LinearGradient(gradient: Gradient(colors: [Color("BlueMedium"), Color("BlueLight")]), startPoint: .leading, endPoint: .trailing))
             .cornerRadius(12)
           
-            AsyncImage(url: URL(string: "https://rickandmortyapi.com/api/character/avatar/1.jpeg")) { phase in
+            AsyncImage(url: URL(string: viewModel?.image ?? "")) { phase in
                 if let image = phase.image {
                     image.imageModifier()
                 } else {
@@ -57,12 +59,12 @@ struct CharacterListItemView: View {
             )
             .background(
               Circle()
-                .fill(LinearGradient(gradient: Gradient(colors: [Color("ColorGreenMedium"), Color("ColorGreenLight")]), startPoint: .trailing, endPoint: .leading))
+                .fill(LinearGradient(gradient: Gradient(colors: [Color("BlueMedium"), Color("BlueLight")]), startPoint: .trailing, endPoint: .leading))
                 .frame(width: 82, height: 82, alignment: .center)
             )
             .background(
               Circle()
-                .fill(Color("ColorAppearanceAdaptive"))
+                .fill(Color.white)
                 .frame(width: 90, height: 90, alignment: .center)
             )
             .offset(x: -150)

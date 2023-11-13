@@ -9,24 +9,46 @@ import SwiftUI
 
 struct CharactersListView: View {
     // MARK: - Properties
+    @StateObject private var viewModel = CharactersListViewModel()
+    
     // MARK: - Body
     var body: some View {
         NavigationView {
             List {
-                ForEach(1..<10) { _ in
+                ForEach(viewModel.characters ?? [], id: \.id) { character in
                     ZStack {
-                        NavigationLink(destination: CharacterDetailView()) {
+                        NavigationLink(destination: CharacterDetailView(characterId: character.id ?? "")) {
                             EmptyView()
                         }.opacity(0.0)
-                        CharacterListItemView()
+                        CharacterListItemView(viewModel: character)
                             .padding(.leading, 20)
                     }
                 }
                 .listRowSeparator(.hidden)
+                if viewModel.shouldShowNextPage {
+                    loadNextPageView
+                }
             }
             .padding()
             .listStyle(PlainListStyle())
             .navigationTitle("Characters")
+            .task {
+                viewModel.getCharacters()
+            }
+        }
+    }
+    
+    private var loadNextPageView: some View {
+        HStack {
+            Spacer()
+            VStack {
+                ProgressView()
+                Text("Loading next page...")
+            }
+            Spacer()
+        }
+        .task {
+            viewModel.currentPage += 1
         }
     }
 }

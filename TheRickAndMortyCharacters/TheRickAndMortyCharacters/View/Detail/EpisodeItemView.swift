@@ -9,26 +9,23 @@ import SwiftUI
 
 struct EpisodeItemView: View {
     // MARK: - PROPERTIES
-
+    var episodes: [String] = []
+    
     // MARK: - BODY
 
     var body: some View {
         GroupBox() {
             DisclosureGroup("Episodes") {
-                ForEach(0..<3, id: \.self) { item in
+                ForEach(episodes, id: \.self) { episode in
                     Divider().padding(.vertical, 2)
                     HStack {
                         Group {
                             Image(systemName: "movieclapper")
-                            Text("nutrients[item]")
+                            Text(episode)
                         }
                         .foregroundColor(.blue)
                         .font(Font.system(.body).bold())
-                        
-                        Spacer(minLength: 25)
-                        
-                        Text("fruit.nutrition[item]")
-                            .multilineTextAlignment(.trailing)
+                        Spacer()
                     }
                 }
             }
@@ -37,5 +34,5 @@ struct EpisodeItemView: View {
 }
 
 #Preview {
-    EpisodeItemView()
+    EpisodeItemView(episodes: ["S1", "S2"])
 }
